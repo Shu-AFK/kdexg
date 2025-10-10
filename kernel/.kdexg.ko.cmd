@@ -1,0 +1,1 @@
+cmd_/home/floyd/Work/kDEXG/kernel/kdexg.ko := ld -r -m elf_x86_64 -z noexecstack --no-warn-rwx-segments --build-id=sha1  -T scripts/module.lds -o /home/floyd/Work/kDEXG/kernel/kdexg.ko /home/floyd/Work/kDEXG/kernel/kdexg.o /home/floyd/Work/kDEXG/kernel/kdexg.mod.o;  true

@@ -1,0 +1,6 @@
+[submodule "kernel/includes/jsmn"]
+	path = kernel/includes/jsmn
+	url = https://github.com/zserge/jsmn.git
+[submodule "user/includes/cJSON"]
+	path = user/includes/cJSON
+	url = https://github.com/DaveGamble/cJSON.git

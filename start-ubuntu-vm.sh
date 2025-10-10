@@ -1,4 +1,3 @@
-
 #!/usr/bin/env bash
 # start-ubuntu-vm.sh — Manage Ubuntu dev VM for kernel testing
 # ------------------------------------------------------------
