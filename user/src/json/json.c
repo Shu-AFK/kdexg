@@ -2,10 +2,11 @@
 
 #include "cJSON.h"
 #include "defines.h"
-#include <stdlib>
+#include <stdlib.h>
+#include <stdio.h>
 #include <string.h>
 
-char *policy_entry_to_json(const struct PolicyEntry *entry) {
+char *policy_entry_to_json(const PolicyEntry *entry) {
   cJSON *root = cJSON_CreateObject();
 
   cJSON_AddStringToObject(root, "path", entry->path);
@@ -16,7 +17,7 @@ char *policy_entry_to_json(const struct PolicyEntry *entry) {
   return json_str;
 }
 
-int get_entries_from_file(struct PolicyEntry *entryList, int *count_out) {
+int get_entries_from_file(PolicyEntry *entryList, int *count_out) {
   FILE *policy_file;
   policy_file = fopen("POLICY_FILE_PATH", "r");
 
@@ -54,7 +55,7 @@ int get_entries_from_file(struct PolicyEntry *entryList, int *count_out) {
     cJSON *mode = cJSON_GetObjectItem(item, "mode");
 
     if (cJSON_IsString(path)) entries[i].path = strdup(path->valuestring);
-    if (cJSON_IsString(mode)) snprintf(entries[i].mode, sizeof(entries[i].mode, "%s", mode->valuestring)); 
+    if (cJSON_IsString(mode)) snprintf(entries[i].mode, sizeof(entries[i].mode), "%s", mode->valuestring); 
   }
 
   cJSON_Delete(root);
@@ -64,9 +65,9 @@ int get_entries_from_file(struct PolicyEntry *entryList, int *count_out) {
 }
 
 int write_entry_to_file(const PolicyEntry *entry) {
-  
+  return 0; 
 }
 
 int remove_policy_entry(const char *path, const char *mode) {
-
+  return 0;
 }

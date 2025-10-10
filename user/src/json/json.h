@@ -6,8 +6,8 @@ typedef struct {
   char mode[16];
 } PolicyEntry;
 
-char *policy_entry_to_json(const struct PolicyEntry *entry);
-int get_entries_from_file(struct PolicyEntry *entryList, int *count_out);
+char *policy_entry_to_json(const PolicyEntry *entry);
+int get_entries_from_file(PolicyEntry *entryList, int *count_out);
 int write_entry_to_file(const PolicyEntry *entry);
 int remove_policy_entry(const char *path, const char *mode);
 
