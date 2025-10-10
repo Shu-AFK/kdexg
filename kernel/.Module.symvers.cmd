@@ -1,1 +1,0 @@
-cmd_/home/floyd/Work/kDEXG/kernel/Module.symvers := sed 's/\.ko$$/\.o/' /home/floyd/Work/kDEXG/kernel/modules.order | scripts/mod/modpost -m -a  -o /home/floyd/Work/kDEXG/kernel/Module.symvers -e -i Module.symvers   -T -
