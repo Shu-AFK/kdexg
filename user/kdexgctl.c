@@ -15,24 +15,24 @@ int main(int argc, char **argv) {
   char *path, *mode = NULL;
 
   if (parse_args(argc, argv, &add, &remove, &path, &mode) == -1) {
-    printf("Failed to parse command line args\n");
+    printf("[ERR] Failed to parse command line args\n");
     goto err;
   }
 
   if ((!add && !remove) || (add && remove)) {
-    printf("Please either add or remove a policy.\n");
+    printf("[ERR] Please either add or remove a policy.\n");
     print_usage();
     goto err;
   }
 
   if (init_policy_json() != 0) {
-    printf("Failed to init json file.\n");
+    printf("[ERR] Failed to init json file.\n");
     goto err;
   }
 
   if(add) {
     if (!mode || !path) {
-      printf("Please specify a path and a mode for adding a policy.\n");
+      printf("[ERR] Please specify a path and a mode for adding a policy.\n");
       print_usage();
       goto err;
     }
@@ -43,18 +43,18 @@ int main(int argc, char **argv) {
     };
 
     if (write_entry_to_file(&entry) != 0) {
-      printf("Write entry to file failed.\n");
+      printf("[ERR] Write entry to file failed.\n");
       goto err;
     }
   } else {
-    if (!mode || !path) {
-      printf("Please specify a path and a mode for adding a policy.\n");
+    if (!path) {
+      printf("[ERR] Please specify a path to remove a policy.\n");
       print_usage();
       goto err;
     }
 
-    if(remove_policy_entry(path, mode) != 0) {
-      printf("Remove policy entry failed.\n");
+    if(remove_policy_entry(path) != 0) {
+      printf("[ERR] Remove policy entry failed.\n");
       goto err;
     }
   }

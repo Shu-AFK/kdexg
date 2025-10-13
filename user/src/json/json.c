@@ -10,6 +10,14 @@
 #include <stddef.h>
 #include <unistd.h>
 
+void free_entries(PolicyEntry *entries, int len) {
+  for (int i = 0; i < len; i++) { 
+    free(entries[i].path);
+    free(entries[i].mode);
+  }
+  free(entries);
+}
+
 int init_policy_json() {
   if(access(POLICY_FILE_PATH, F_OK) == 0) {
     return 0;
@@ -94,30 +102,10 @@ int get_entries_from_file(PolicyEntry **entryList, int *count_out) {
   return 0;
 }
 
-int write_entry_to_file(const PolicyEntry *entry) {
-  int len;
-  PolicyEntry *entries;
-  if (get_entries_from_file(&entries, &len) == -1) return -1;
-
-  PolicyEntry *tmp = realloc(entries, (len + 1) * sizeof(PolicyEntry));
-  if (!tmp) {
-    free(entries);
-    return -1;
-  }
-
-  entries = tmp;
-  entries[len].path = strdup(entry->path);
-  entries[len].mode = strdup(entry->mode);
-  len++;
-
+int write_entries_to_file(PolicyEntry *entries, int len, int exclude) {
   FILE *policy_file = fopen(POLICY_FILE_PATH, "w");
-  if (!policy_file) {
-    for (int i = 0; i < len; i++) {
-      free(entries[i].path);
-      free(entries[i].mode);
-    }
-
-    free(entries);
+  if (!policy_file)  {
+    printf("[ERR] Could not open %s\n", POLICY_FILE_PATH);
     return -1;
   }
 
@@ -126,6 +114,8 @@ int write_entry_to_file(const PolicyEntry *entry) {
   cJSON_AddItemToObject(root, "policies", array);
 
   for (int i = 0; i < len; i++) {
+    if (i == exclude) continue;
+
     cJSON *item = cJSON_CreateObject();
     cJSON_AddStringToObject(item, "path", entries[i].path);
     cJSON_AddStringToObject(item, "mode", entries[i].mode);
@@ -139,15 +129,64 @@ int write_entry_to_file(const PolicyEntry *entry) {
   cJSON_Delete(root);
   cJSON_free(json_str);
 
-  for (int i = 0; i < len; i++) { 
-    free(entries[i].path);
-    free(entries[i].mode);
-  }
-  free(entries);
-
   return 0;
 }
 
-int remove_policy_entry(const char *path, const char *mode) {
-  return 0;
+int find_element_in_policy(const char *path, PolicyEntry *entries, int len) {
+  for (int i = 0; i < len; i++) {
+    if (strcmp(entries[i].path, path) == 0) return i;
+  }
+  
+  return -1;
+}
+
+int write_entry_to_file(const PolicyEntry *entry) {
+  int len;
+  PolicyEntry *entries;
+  if (get_entries_from_file(&entries, &len) == -1) {
+    printf("[ERR] Could not open %s\n", POLICY_FILE_PATH);
+    return -1;
+  }
+
+  PolicyEntry *tmp = realloc(entries, (len + 1) * sizeof(PolicyEntry));
+  if (!tmp) {
+    printf("[ERR] Out of memory\n");
+    free(entries);
+    return -1;
+  }
+
+  entries = tmp;
+  entries[len].path = strdup(entry->path);
+  entries[len].mode = strdup(entry->mode);
+  len++;
+
+  int ret = write_entries_to_file(entries, len, -1);
+  free_entries(entries, len);
+
+  if (ret == 0) printf("[INFO] The policy entry for %s has been added successfully.\n", entry->path);
+
+  return ret;
+}
+
+int remove_policy_entry(const char *path) {
+  int len;
+  PolicyEntry *entries;
+  if(get_entries_from_file(&entries, &len) == -1) {
+    printf("[ERR] Could not open %s\n", POLICY_FILE_PATH);
+    return -1;
+  }
+
+  int pos = find_element_in_policy(path, entries, len);
+  if (pos == -1) {
+    printf("[ERR] Could not find policy entry for %s\n", path);
+    free_entries(entries, len);
+    return -1;
+  }
+
+  int ret = write_entries_to_file(entries, len, pos);
+  free_entries(entries, len);
+
+  if (ret == 0) printf("[INFO] The entry for %s has been successfully removed.\n", path);
+  
+  return ret;
 }

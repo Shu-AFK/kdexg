@@ -70,7 +70,7 @@ void print_usage(void) {
     printf("  -m, --mode <mode>        Specify access mode (e.g., read, write, block)\n\n");
     printf("Examples:\n");
     printf("  kdexgctl --add --path /home/user/docs --mode read\n");
-    printf("  kdexgctl --remove --path /tmp/secrets --mode block\n\n");
+    printf("  kdexgctl --remove --path /tmp/secrets\n\n");
 }
 
 int ensure_directory_exists(const char *path) {
