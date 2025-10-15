@@ -6,6 +6,7 @@ typedef struct {
   char *mode;
 } PolicyEntry;
 
+void free_entries(PolicyEntry *entries, int len);
 int init_policy_json();
 int get_entries_from_file(PolicyEntry **entryList, int *count_out);
 int write_entry_to_file(const PolicyEntry *entry);
