@@ -3,6 +3,9 @@
 
 #include <stdint.h>
 
+int comm_init();
+void comm_exit();
+
 int comm_handler(uint32_t mask);
 
 #endif

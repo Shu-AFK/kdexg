@@ -4,3 +4,6 @@
 [submodule "user/includes/cJSON"]
 	path = user/includes/cJSON
 	url = https://github.com/DaveGamble/cJSON.git
+[submodule "user/includes/uthash"]
+	path = user/includes/uthash
+	url = https://github.com/troydhanson/uthash.git
