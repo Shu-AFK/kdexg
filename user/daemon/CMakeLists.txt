@@ -38,6 +38,7 @@ endforeach()
 # --- Common include directories ---
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../includes)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../includes/cJSON)
+include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../includes/uthash/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/src)
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/../shared)
 

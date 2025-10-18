@@ -3,8 +3,8 @@
 
 #include <stdint.h>
 
-int comm_init();
-void comm_exit();
+int init_comm();
+void exit_comm();
 
 int comm_handler(uint32_t mask);
 

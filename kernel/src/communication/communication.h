@@ -1,10 +1,13 @@
 #ifndef KDEXG_COMMUNICATION_H
 #define KDEXG_COMMUNICATION_H
 
-static int init_comm();
-static void exit_comm();
+#include <net/genetlink.h>
 
-static int handle_policy_update(struct sk_buff *skb, struct genl_info *info);
-static int handle_policy_init(struct sk_buff *skb, struct genl_info *info);
+int init_comm(void);
+void exit_comm(void);
+
+static int handle_policy_add(struct sk_buff *skb, struct genl_info *info);
+static int handle_policy_remove(struct sk_buff *skb, struct genl_info *info);
+static int handle_policy_clear(struct sk_buff *skb, struct genl_info *info);
 
 #endif

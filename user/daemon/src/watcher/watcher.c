@@ -1,6 +1,7 @@
 #include "watcher.h"
 
 #include "defines.h"
+#include "daemon_state.h"
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -9,8 +10,6 @@
 #include <signal.h>
 #include <sys/inotify.h>
 #include <sys/types.h>
-
-extern volatile sig_atomic_t stop;
 
 int watcher(message_handler_fptr handler) {
   int fd = inotify_init();

@@ -9,7 +9,13 @@ file(MAKE_DIRECTORY ${KERNEL_BUILD_DIR})
 add_custom_command(
     OUTPUT ${CMAKE_BINARY_DIR}/${MODULE_NAME}.ko
     COMMAND ${CMAKE_COMMAND} -E echo "Building kernel module with headers from ${KERNEL_DIR}"
-    COMMAND cp -r ${CMAKE_CURRENT_SOURCE_DIR}/* ${KERNEL_BUILD_DIR}/
+    COMMAND ${CMAKE_COMMAND} -E make_directory ${KERNEL_BUILD_DIR}/src
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}
+        ${KERNEL_BUILD_DIR}
+    COMMAND ${CMAKE_COMMAND} -E copy_directory
+        ${CMAKE_CURRENT_SOURCE_DIR}/src
+        ${KERNEL_BUILD_DIR}/src
     COMMAND ${CMAKE_MAKE_PROGRAM} -C ${KERNEL_DIR} M=${KERNEL_BUILD_DIR} modules
     COMMAND ${CMAKE_COMMAND} -E copy_if_different
         ${KERNEL_BUILD_DIR}/${MODULE_NAME}.ko

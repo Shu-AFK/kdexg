@@ -1,12 +1,13 @@
 #include "watcher.h"
 #include "communication.h"
+#include "daemon_state.h"
 
 #include "json.h"
 
 #include <stdio.h>
 #include <signal.h>
 
-static volatile sig_atomic_t stop = 0;
+volatile sig_atomic_t stop = 0;
 
 void handle_signal(int sig) {
   stop = 1;
